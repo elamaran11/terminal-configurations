@@ -64,7 +64,26 @@ else
     print_success "Oh My Zsh already installed!"
 fi
 
-# 4. Install Powerlevel10k theme
+# 4. Install Oh My Zsh plugins
+print_status "Installing Oh My Zsh plugins..."
+
+# Install zsh-autosuggestions
+if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    print_success "zsh-autosuggestions installed!"
+else
+    print_success "zsh-autosuggestions already installed!"
+fi
+
+# Install zsh-syntax-highlighting
+if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting" ]; then
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+    print_success "zsh-syntax-highlighting installed!"
+else
+    print_success "zsh-syntax-highlighting already installed!"
+fi
+
+# 5. Install Powerlevel10k theme
 print_status "Installing Powerlevel10k theme..."
 if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" ]; then
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
@@ -73,14 +92,14 @@ else
     print_success "Powerlevel10k already installed!"
 fi
 
-# 5. Backup existing configurations
+# 6. Backup existing configurations
 print_status "Backing up existing configurations..."
 mkdir -p backup-configs
 [ -f ~/.zshrc ] && cp ~/.zshrc backup-configs/.zshrc.backup.$(date +%Y%m%d_%H%M%S)
 [ -f ~/.p10k.zsh ] && cp ~/.p10k.zsh backup-configs/.p10k.zsh.backup.$(date +%Y%m%d_%H%M%S)
 [ -f ~/.config/tmux/tmux.conf ] && cp ~/.config/tmux/tmux.conf backup-configs/tmux.conf.backup.$(date +%Y%m%d_%H%M%S)
 
-# 6. Copy configuration files
+# 7. Copy configuration files
 print_status "Installing configuration files..."
 
 # Copy Zsh configuration
@@ -96,14 +115,14 @@ mkdir -p ~/.config/tmux
 cp tmux/tmux.conf ~/.config/tmux/tmux.conf
 print_success "Tmux configuration installed!"
 
-# 7. Setup custom scripts
+# 8. Setup custom scripts
 print_status "Installing custom scripts..."
 mkdir -p ~/.local/bin
 cp scripts/* ~/.local/bin/
 chmod +x ~/.local/bin/*.sh
 print_success "Custom scripts installed!"
 
-# 8. Install Tmux Plugin Manager
+# 9. Install Tmux Plugin Manager
 print_status "Installing Tmux Plugin Manager..."
 if [ ! -d ~/.local/share/tmux/plugins/tpm ]; then
     git clone https://github.com/tmux-plugins/tpm ~/.local/share/tmux/plugins/tpm
@@ -112,7 +131,7 @@ else
     print_success "Tmux Plugin Manager already installed!"
 fi
 
-# 9. Set Zsh as default shell
+# 10. Set Zsh as default shell
 print_status "Setting Zsh as default shell..."
 if [ "$SHELL" != "$(which zsh)" ]; then
     chsh -s $(which zsh)
@@ -131,6 +150,7 @@ echo "3. Make sure to use a Nerd Font in your terminal for proper icons"
 echo ""
 echo "🎨 Features:"
 echo "• Beautiful Powerlevel10k prompt with custom colors"
+echo "• Zsh autosuggestions and syntax highlighting"
 echo "• Tmux status bar with system monitoring"
 echo "• Auto-detected location and weather"
 echo "• Network monitoring and system stats"
