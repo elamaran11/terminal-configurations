@@ -1,5 +1,24 @@
 # 🚀 Terminal Configurations
 
+![Terminal Setup](screenshots/full-terminal-setup.png)
+
+## 🔥 Want Your Terminal to Look This Stunning?
+
+**Dude, if you want your terminal to look absolutely gorgeous like this** - with that beautiful lavender prompt, real-time system monitoring, auto-location detection, and those sweet pastel colors - you're in the right place! 
+
+This isn't just another boring terminal setup. This is a **complete terminal transformation** that will make your colleagues jealous and your productivity soar. 🚀
+
+✨ **What makes this special?**
+- 🎨 **Gorgeous lavender prompt** that changes colors based on your project
+- 🌡️ **Auto-location & weather** - your terminal knows where you are!
+- 📊 **Real-time system monitoring** - CPU, memory, network speeds, all beautifully displayed
+- 🎯 **Smart directory colors** - special themes for AWS projects
+- ⚡ **Lightning fast** - optimized for performance, not just looks
+
+**Ready to transform your terminal?** Just run the install script below and watch the magic happen! ⬇️
+
+---
+
 Beautiful, functional terminal setup with Zsh, Powerlevel10k, and Tmux configurations.
 
 ## 📋 What's Included
