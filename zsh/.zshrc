@@ -137,6 +137,7 @@ export NVM_DIR="$HOME/.nvm"
 alias cdk='npx cdk'
 export PATH=/usr/local/bin:$PATH
 alias q="q"
+alias tmuxlist='tmux list-sessions -F "#{session_name}" | xargs -I {} tmux list-windows -t {} -F "Session: {} | Window: #{window_index}:#{window_name}"'
 # Amazon Q post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
 
