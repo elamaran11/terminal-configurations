@@ -76,7 +76,7 @@ wezterm.on('format-tab-title', function(tab, tabs, panes, cfg, hover, max_width)
   }
 end)
 
--- Cursor - smooth blinking bar
+-- Cursor - smooth blinking underline
 config.default_cursor_style = 'BlinkingBar'
 config.cursor_blink_rate = 600
 config.cursor_blink_ease_in = 'EaseIn'
@@ -101,7 +101,9 @@ config.keys = {
   { key = 'DownArrow', mods = 'CMD', action = wezterm.action.ActivatePaneDirection 'Down' },
   { key = 'w', mods = 'CMD', action = wezterm.action.CloseCurrentPane { confirm = false } },
   { key = 't', mods = 'CMD', action = wezterm.action.SpawnTab 'CurrentPaneDomain' },
+  -- Quick pane zoom toggle
   { key = 'z', mods = 'CMD', action = wezterm.action.TogglePaneZoomState },
+  -- Font size
   { key = '=', mods = 'CMD', action = wezterm.action.IncreaseFontSize },
   { key = '-', mods = 'CMD', action = wezterm.action.DecreaseFontSize },
   { key = '0', mods = 'CMD', action = wezterm.action.ResetFontSize },
@@ -139,7 +141,13 @@ local function fetch_weather()
   local now = os.time()
   if now - status_cache.weather.time < 600 then return status_cache.weather.text end
   local ok, result = pcall(function()
-    local handle = io.popen('curl -sf "https://api.open-meteo.com/v1/forecast?latitude=28.24&longitude=-82.33&current=temperature_2m,weather_code&temperature_unit=fahrenheit" 2>/dev/null')
+    local loc_handle = io.popen('curl -sf "ipinfo.io/loc" 2>/dev/null')
+    if not loc_handle then return nil end
+    local loc = loc_handle:read('*a'):gsub('%s+', '')
+    loc_handle:close()
+    local lat, lon = loc:match('([^,]+),([^,]+)')
+    if not lat then return nil end
+    local handle = io.popen('curl -sf "https://api.open-meteo.com/v1/forecast?latitude=' .. lat .. '&longitude=' .. lon .. '&current=temperature_2m,weather_code&temperature_unit=fahrenheit" 2>/dev/null')
     if not handle then return nil end
     local data = handle:read('*a')
     handle:close()
