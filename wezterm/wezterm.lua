@@ -131,70 +131,31 @@ config.window_frame = {
   font_size = 12.0,
 }
 
--- Status bar cache
-local status_cache = {
-  weather = { text = '…', time = 0 },
-  location = { text = '…', time = 0 },
-}
-
-local function fetch_weather()
-  local now = os.time()
-  if now - status_cache.weather.time < 600 then return status_cache.weather.text end
-  local ok, result = pcall(function()
-    local loc_handle = io.popen('curl -sf "ipinfo.io/loc" 2>/dev/null')
-    if not loc_handle then return nil end
-    local loc = loc_handle:read('*a'):gsub('%s+', '')
-    loc_handle:close()
-    local lat, lon = loc:match('([^,]+),([^,]+)')
-    if not lat then return nil end
-    local handle = io.popen('curl -sf "https://api.open-meteo.com/v1/forecast?latitude=' .. lat .. '&longitude=' .. lon .. '&current=temperature_2m,weather_code&temperature_unit=fahrenheit" 2>/dev/null')
-    if not handle then return nil end
-    local data = handle:read('*a')
-    handle:close()
-    local temp = data:match('"temperature_2m":([%d%.]+)')
-    local code = tonumber(data:match('"weather_code":(%d+)') or '0')
-    if not temp then return nil end
-    local icons = { [0]='☀️', '🌤', '⛅', '☁️' }
-    local icon = icons[code] or (code < 50 and '🌫️' or code < 70 and '🌧️' or code < 80 and '❄️' or '⛈️')
-    return icon .. ' ' .. temp .. '°F'
-  end)
-  if ok and result then
-    status_cache.weather = { text = result, time = now }
-  elseif status_cache.weather.text == '…' then
-    status_cache.weather = { text = '🌡️ N/A', time = now }
-  end
-  return status_cache.weather.text
+-- Non-blocking status bar: reads from cache files written by background scripts
+local function read_cache(path, fallback)
+  local f = io.open(path, 'r')
+  if not f then return fallback end
+  local text = f:read('*a'):gsub('%s+$', '')
+  f:close()
+  return text ~= '' and text or fallback
 end
 
-local function fetch_location()
-  local now = os.time()
-  if now - status_cache.location.time < 3600 then return status_cache.location.text end
-  local ok, result = pcall(function()
-    local handle = io.popen('curl -sf "ipinfo.io/json" 2>/dev/null')
-    if not handle then return nil end
-    local data = handle:read('*a')
-    handle:close()
-    local city = data:match('"city":%s*"([^"]+)"')
-    local region = data:match('"region":%s*"([^"]+)"')
-    if city then return '📍 ' .. city .. ', ' .. (region or '') end
-    return nil
-  end)
-  if ok and result then
-    status_cache.location = { text = result, time = now }
-  elseif status_cache.location.text == '…' then
-    status_cache.location = { text = '📍 N/A', time = now }
-  end
-  return status_cache.location.text
+local function trigger_bg_refresh()
+  os.execute('~/.local/bin/get_temp.sh > /dev/null 2>&1 &')
+  os.execute('~/.local/bin/get_location.sh > /dev/null 2>&1 &')
 end
+
+-- Kick off initial background fetch
+trigger_bg_refresh()
 
 wezterm.on('update-right-status', function(window, pane)
-  local weather = fetch_weather()
-  local location = fetch_location()
+  local weather = read_cache('/tmp/weather_cache.txt', '🌡️ …')
+  local location = read_cache('/tmp/location_cache.txt', '📍 …')
   local date = wezterm.strftime('%m/%d')
   local time = wezterm.strftime('%I:%M %p %Z')
 
   window:set_right_status(wezterm.format({
-    { Foreground = { Color = '#a6e3a1' } }, { Text = location .. '  ' },
+    { Foreground = { Color = '#a6e3a1' } }, { Text = '📍 ' .. location .. '  ' },
     { Foreground = { Color = '#f9e2af' } }, { Text = weather .. '  ' },
     { Foreground = { Color = '#89b4fa' } }, { Text = '📅 ' .. date .. '  ' },
     { Foreground = { Color = '#cba6f7' } }, { Text = '🕘 ' .. time .. ' ' },
