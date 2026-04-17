@@ -1,0 +1,82 @@
+{
+  "mcpServers": {
+    "awslabs.aws-documentation-mcp-server": {
+      "type": "stdio",
+      "command": "__HOME__/.local/bin/uvx",
+      "args": [
+        "awslabs.aws-documentation-mcp-server@latest"
+      ],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "autoApprove": [
+        "read_sections"
+      ]
+    },
+    "awslabs.cdk-mcp-server": {
+      "type": "stdio",
+      "command": "__HOME__/.local/bin/uvx",
+      "args": [
+        "awslabs.cdk-mcp-server@latest"
+      ],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      }
+    },
+    "eks-mcp": {
+      "type": "stdio",
+      "command": "__HOME__/.local/bin/uvx",
+      "args": [
+        "mcp-proxy-for-aws@latest",
+        "https://eks-mcp.us-west-2.api.aws/mcp",
+        "--service",
+        "eks-mcp",
+        "--region",
+        "us-west-2"
+      ]
+    },
+    "ecs-mcp": {
+      "type": "stdio",
+      "command": "__HOME__/.local/bin/uvx",
+      "args": [
+        "mcp-proxy-for-aws@latest",
+        "https://ecs-mcp.us-west-2.api.aws/mcp",
+        "--service",
+        "ecs-mcp",
+        "--region",
+        "us-west-2"
+      ]
+    },
+    "awslabs.terraform-mcp-server": {
+      "type": "stdio",
+      "command": "__HOME__/.local/bin/uvx",
+      "args": [
+        "awslabs.terraform-mcp-server@latest"
+      ],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      }
+    },
+    "awslabs.aws-diagram-mcp-server": {
+      "type": "stdio",
+      "command": "__HOME__/.local/bin/uvx",
+      "args": [
+        "awslabs.aws-diagram-mcp-server@latest"
+      ],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      }
+    },
+    "github": {
+      "type": "stdio",
+      "command": "__HOME__/.nvm/versions/node/v20.20.0/bin/npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${env:GITHUB_PERSONAL_ACCESS_TOKEN}"
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "env": {
+    "ANTHROPIC_BASE_URL": "${ANTHROPIC_BASE_URL}",
+    "ANTHROPIC_API_KEY": "${ANTHROPIC_API_KEY}"
+  },
+  "enabledPlugins": {
+    "claude-mem@thedotmack": true
+  },
+  "extraKnownMarketplaces": {
+    "thedotmack": {
+      "source": {
+        "source": "github",
+        "repo": "thedotmack/claude-mem"
+      }
+    }
+  },
+  "autoUpdatesChannel": "stable",
+  "skipDangerousModePermissionPrompt": true
+}

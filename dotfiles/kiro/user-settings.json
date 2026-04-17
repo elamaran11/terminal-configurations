@@ -1,0 +1,27 @@
+{
+    "telemetry.dataSharingAndPromptLogging.usageAnalyticsAndPerformanceMetrics": true,
+    "telemetry.dataSharingAndPromptLogging.contentCollectionForServiceImprovement": true,
+    "telemetry.dataSharingAndPromptLogging.promptLogging": false,
+    "kiroAgent.codeReferences.referenceTracker": true,
+    "kiroAgent.mcpApprovedEnvVars": [
+        "env:GITHUB_PERSONAL_ACCESS_TOKEN"
+    ],
+    "amazonQ.suppressPrompts": {
+        "amazonQSessionConfigurationMessage": true,
+        "amazonQChatDisclaimer": true,
+        "amazonQChatPairProgramming": true
+    },
+    "explorer.confirmDelete": false,
+    "security.workspace.trust.untrustedFiles": "open",
+    "kiroAgent.trustedTools": [
+        "webFetch",
+        "remote_web_search"
+    ],
+    "explorer.confirmDragAndDrop": false,
+    "workbench.iconTheme": "let-icons",
+    "workbench.colorTheme": "Atom One Dark",
+    "workbench.productIconTheme": "material-product-icons",
+    "terminal.integrated.fontFamily": "MesloLGS Nerd Font",
+    "terminal.integrated.fontLigatures.enabled": true,
+    "remote.SSH.useLocalSSH": true
+}

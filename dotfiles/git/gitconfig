@@ -1,0 +1,5 @@
+[core]
+	hooksPath = __HOME__/.git-hooks
+[user]
+	email = elamaran.shan@gmail.com
+	name = elamaran shanmugam
