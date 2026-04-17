@@ -1,6 +1,6 @@
 #!/bin/bash
 # Strip Co-Authored-By trailer from commit messages
-sed -i '/^Co-Authored-By: .*<noreply@anthropic\.com>/d' "$1"
+sed -i '' '/^Co-Authored-By: .*<noreply@anthropic\.com>/d' "$1"
 
 # Chain to the repo's local commit-msg hook if it exists
 LOCAL_HOOK="$(git rev-parse --git-dir 2>/dev/null)/hooks/commit-msg"
